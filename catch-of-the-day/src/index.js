@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Match, Miss } from 'react-router';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './css/style.css';
 
@@ -10,13 +10,15 @@ import NotFound from './components/NotFound';
 
 const Root = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <div>
-        <Match exactly pattern="/" component={StorePicker} />
-        <Match exactly pattern="/store/:storeId" component={App} />
-        <Miss component={NotFound} />
+        <Switch>
+          <Route exact path="/" component={StorePicker} />
+          <Route exact path="/store/:storeId" component={App} />
+          <Route component={NotFound} />
+        </Switch>
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 

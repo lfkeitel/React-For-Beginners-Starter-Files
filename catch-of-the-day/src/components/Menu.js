@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Header from './Header';
 import Fish from './Fish';
@@ -25,8 +26,8 @@ class Menu extends React.Component {
 }
 
 Menu.propTypes = {
-  fishes: React.PropTypes.object.isRequired,
-  addToOrder: React.PropTypes.func.isRequired
+  fishes: PropTypes.object.isRequired,
+  addToOrder: PropTypes.func.isRequired
 }
 
 export default Menu;

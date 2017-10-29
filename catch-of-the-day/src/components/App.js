@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Menu from './Menu';
 import Order from './Order';
@@ -23,12 +24,13 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.ref = base.syncState(`${this.props.params.storeId}/fishes`, {
+    const storeId = this.props.match.params.storeId;
+    this.ref = base.syncState(`${storeId}/fishes`, {
       context: this,
       state: 'fishes'
     });
 
-    const order = localStorage.getItem(`order-${this.props.params.storeId}`);
+    const order = localStorage.getItem(`order-${storeId}`);
     if (order) {
       this.setState({
         order: JSON.parse(order)
@@ -41,7 +43,8 @@ class App extends React.Component {
   }
 
   componentWillUpdate(props, state) {
-    localStorage.setItem(`order-${this.props.params.storeId}`, JSON.stringify(state.order));
+    const storeId = this.props.match.params.storeId;
+    localStorage.setItem(`order-${storeId}`, JSON.stringify(state.order));
   }
 
   addFish(fish) {
@@ -81,6 +84,8 @@ class App extends React.Component {
   }
 
   render() {
+    const storeId = this.props.match.params.storeId;
+
     return (
       <div className="catch-of-the-day">
         <Menu
@@ -89,10 +94,9 @@ class App extends React.Component {
         <Order
           fishes={this.state.fishes}
           order={this.state.order}
-          params={this.props.params}
           removeFromOrder={this.removeFromOrder} />
         <Inventory
-          storeId={this.props.params.storeId}
+          storeId={storeId}
           removeFish={this.removeFish}
           updateFish={this.updateFish}
           fishes={this.state.fishes}
@@ -104,7 +108,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  params: React.PropTypes.object.isRequired
+  match: PropTypes.object.isRequired
 }
 
 export default App;
